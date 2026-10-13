@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TIGames Universe — VK Mini App</title>
+  <!-- VK Bridge SDK -->
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VK+Sans+Display:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --vk-blue: #0077FF;
+      --vk-blue-light: #4492FF;
+      --bg: #0E121A;
+      --card-bg: #1A2130;
+      --text: #FFFFFF;
+      --text-sub: #8B99AF;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent-green: #4BB34B;
+      --accent-orange: #FFA000;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 16px 14px 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-top: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 119, 255, 0.15);
+      border: 1px solid var(--vk-blue);
+      color: var(--vk-blue-light);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    p.sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+    .games-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .game-row {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .game-row:active {
+      transform: scale(0.98);
+      background: rgba(0, 119, 255, 0.1);
+    }
+    .game-icon {
+      font-size: 32px;
+      width: 52px;
+      height: 52px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .game-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .game-title {
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-tag {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+    .btn-play {
+      background: var(--vk-blue);
+      color: #FFFFFF;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .share-box {
+      margin-top: 24px;
+      text-align: center;
+      background: rgba(0, 119, 255, 0.08);
+      border: 1px dashed rgba(0, 119, 255, 0.4);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .share-btn {
+      background: #FFFFFF;
+      color: #0E121A;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    /* Fullscreen Game Modal */
+    #gameModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #gameModal.active {
+      display: flex;
+    }
+    .modal-bar {
+      height: 48px;
+      background: #111622;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-bar span {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .modal-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #FFFFFF;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    #gameFrame {
+      flex: 1;
+      width: 100%;
+      height: calc(100% - 48px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="badge">🟦 VK Mini Apps · TIGames</div>
+    <h1>Вселенная TIGames в ВКонтакте</h1>
+    <p class="sub">Играй онлайн в 7 хитов без установки прямо в приложении VK!</p>
+  </div>
+
+  <div class="games-list">
+    <div class="game-row" onclick="launchGame('neon-bounce', 'Neon Bounce')">
+      <div class="game-icon">🏓</div>
+      <div class="game-info">
+        <div class="game-title">Neon Bounce</div>
+        <div class="game-tag">Кибер-рикошет · Сверхдинамика</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('retro-zmeyka', 'Retro Zmeyka 3310')">
+      <div class="game-icon">🐍</div>
+      <div class="game-info">
+        <div class="game-title">Retro Zmeyka 3310</div>
+        <div class="game-tag">Ностальгия · Легендарная классика</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('cyber-helix', 'Cyber Helix')">
+      <div class="game-icon">🌀</div>
+      <div class="game-info">
+        <div class="game-title">Cyber Helix: Neon Drop</div>
+        <div class="game-tag">Винтовая башня · Рефлексы</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('gravity-flip', 'Gravity Flip')">
+      <div class="game-icon">⚡</div>
+      <div class="game-info">
+        <div class="game-title">Gravity Flip</div>
+        <div class="game-tag">Инверсия гравитации · Хардкор</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('orbital-pulse', 'Orbital Pulse')">
+      <div class="game-icon">🛡️</div>
+      <div class="game-info">
+        <div class="game-title">Orbital Pulse</div>
+        <div class="game-tag">Защита орбиты · Синтвейв-бит</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('balloon-pop', 'Balloon Pop')">
+      <div class="game-icon">🎈</div>
+      <div class="game-info">
+        <div class="game-title">Balloon Pop</div>
+        <div class="game-tag">Цветные шарики · 100 уровней</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+
+    <div class="game-row" onclick="launchGame('prism-laser', 'Prism Laser')">
+      <div class="game-icon">🔮</div>
+      <div class="game-info">
+        <div class="game-title">Prism Laser</div>
+        <div class="game-tag">Оптическая лаборатория · Лазеры</div>
+      </div>
+      <button class="btn-play">Играть</button>
+    </div>
+  </div>
+
+  <div class="share-box">
+    <p style="font-size: 13px; color: var(--text-sub);">Позови друзей побить твой рекорд в TIGames Universe</p>
+    <button class="share-btn" onclick="shareOnVk()">📢 Опубликовать на стене ВКонтакте</button>
+  </div>
+
+  <!-- Fullscreen Modal -->
+  <div id="gameModal">
+    <div class="modal-bar">
+      <span id="modalGameTitle">Игра</span>
+      <button class="modal-close" onclick="closeGame()">✕ ВЫЙТИ В МЕНЮ</button>
+    </div>
+    <iframe id="gameFrame" src="about:blank"></iframe>
+  </div>
+
+  <script>
+    // Initialize VK Bridge
+    try {
+      if (window.vkBridge) {
+        vkBridge.send('VKWebAppInit')
+          .then(data => console.log('[VK Bridge] Initialized:', data))
+          .catch(err => console.warn('[VK Bridge] Init error:', err));
+      }
+    } catch(e) {
+      console.warn('VK Bridge not in VK app environment:', e);
+    }
+
+    function launchGame(gamePath, title) {
+      // Haptic feedback in VK
+      if (window.vkBridge) {
+        vkBridge.send('VKWebAppTapticImpactOccurred', { style: 'heavy' }).catch(()=>{});
+      }
+      document.getElementById('modalGameTitle').innerText = title;
+      document.getElementById('gameFrame').src = gamePath + '/';
+      document.getElementById('gameModal').classList.add('active');
+    }
+
+    function closeGame() {
+      document.getElementById('gameModal').classList.remove('active');
+      document.getElementById('gameFrame').src = 'about:blank';
+    }
+
+    function shareOnVk() {
+      if (window.vkBridge) {
+        vkBridge.send('VKWebAppShowWallPostBox', {
+          message: '🎮 Я играю в игры студии TIGames Universe! Попробуй побить мой рекорд: ' + window.location.origin
+        }).catch(err => {
+          alert('Ссылка скопирована для публикации: ' + window.location.origin);
+        });
+      } else {
+        window.open('https://vk.com/share.php?url=' + encodeURIComponent(window.location.origin), '_blank');
+      }
+    }
+  </script>
+</body>
+</html>

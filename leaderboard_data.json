@@ -1,0 +1,38 @@
+{
+  "neon-bounce": [
+    { "player": "CyberFox", "score": 24800, "date": "2026-10-10" },
+    { "player": "Vector99", "score": 19450, "date": "2026-10-10" },
+    { "player": "NeonRider", "score": 15200, "date": "2026-10-09" },
+    { "player": "PixelHero", "score": 12100, "date": "2026-10-09" },
+    { "player": "Shadow", "score": 9800, "date": "2026-10-08" }
+  ],
+  "retro-zmeyka": [
+    { "player": "NokiaMaster", "score": 840, "date": "2026-10-10" },
+    { "player": "SnakeKing", "score": 720, "date": "2026-10-10" },
+    { "player": "OldSchool", "score": 650, "date": "2026-10-09" },
+    { "player": "GreenMatrix", "score": 580, "date": "2026-10-08" }
+  ],
+  "cyber-helix": [
+    { "player": "HelixPro", "score": 142, "date": "2026-10-10" },
+    { "player": "DropMaster", "score": 118, "date": "2026-10-10" },
+    { "player": "CyberFall", "score": 95, "date": "2026-10-09" }
+  ],
+  "gravity-flip": [
+    { "player": "Antigrav", "score": 89, "date": "2026-10-10" },
+    { "player": "Runner33", "score": 74, "date": "2026-10-09" },
+    { "player": "Speedy", "score": 62, "date": "2026-10-08" }
+  ],
+  "orbital-pulse": [
+    { "player": "OrbitalShield", "score": 3840, "date": "2026-10-10" },
+    { "player": "PulsarX", "score": 3120, "date": "2026-10-10" },
+    { "player": "CosmicRay", "score": 2750, "date": "2026-10-09" }
+  ],
+  "balloon-pop": [
+    { "player": "BubblePop", "score": 45200, "date": "2026-10-10" },
+    { "player": "SunnyDay", "score": 38900, "date": "2026-10-10" }
+  ],
+  "prism-laser": [
+    { "player": "OpticGenius", "score": 35, "date": "2026-10-10" },
+    { "player": "PhotonLab", "score": 28, "date": "2026-10-09" }
+  ]
+}

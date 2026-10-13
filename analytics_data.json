@@ -1,0 +1,31 @@
+{
+  "total_visits": 1420,
+  "target_goal": 1000000,
+  "referrers": {
+    "shorts": 480,
+    "tiktok": 360,
+    "telegram": 290,
+    "vk": 180,
+    "reddit": 65,
+    "direct": 45
+  },
+  "game_plays": {
+    "neon-bounce": 620,
+    "retro-zmeyka": 490,
+    "cyber-helix": 310,
+    "gravity-flip": 280,
+    "orbital-pulse": 240,
+    "balloon-pop": 210,
+    "prism-laser": 190
+  },
+  "apk_downloads": {
+    "neon-bounce.apk": 142,
+    "retro-zmeyka.apk": 98,
+    "gravity-flip.apk": 76,
+    "orbital-pulse.apk": 65,
+    "balloon-pop.apk": 54,
+    "resume-card.apk": 42,
+    "home-part-pocket.apk": 38,
+    "backpin-gps.apk": 35
+  }
+}

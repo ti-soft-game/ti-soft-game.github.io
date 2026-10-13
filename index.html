@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00F0FF">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TIGames">
+  <!-- OpenGraph & Twitter Meta Tags for Viral Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TIGames Universe — 7 Браузерных Кибер-Игр Онлайн">
+  <meta property="og:description" content="Играй онлайн в браузере любого смартфона или ПК в 1 клик без скачивания, либо загружай полные версии APK на Android!">
+  <meta property="og:image" content="icons/og-banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TIGames Universe — 7 Онлайн Игр">
+  <meta name="twitter:description" content="7 игр Instant Play прямо в браузере! Устанавливай как PWA или скачивай APK.">
+  <meta name="twitter:image" content="icons/og-banner.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <script src="analytics.js" defer></script>
+  <script src="sound_fx.js" defer></script>
+  <script src="daily_rewards.js" defer></script>
+  <script src="share_booster.js" defer></script>
+  <script src="achievements.js" defer></script>
+  <script src="search_filter.js" defer></script>
+  <script src="onboarding.js" defer></script>
+  <style>
+    :root {
+      --bg: #090D16;
+      --card-bg: rgba(22, 27, 34, 0.85);
+      --accent: #00F0FF;
+      --accent-green: #00FF88;
+      --accent-pink: #FF0055;
+      --accent-gold: #FFB300;
+      --accent-purple: #B026FF;
+      --accent-violet: #8A2BE2;
+      --text: #F0F6FC;
+      --text-muted: #8B949E;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at 50% 0%, #151F38 0%, var(--bg) 70%);
+      color: var(--text);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+    }
+    header {
+      text-align: center;
+      max-width: 760px;
+      margin-bottom: 32px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #FFFFFF 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 240, 255, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 240, 255, 0.15);
+    }
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .title-group h2 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.2;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tag.cyan { background: rgba(0, 240, 255, 0.15); color: var(--accent); }
+    .tag.green { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); }
+    .tag.pink { background: rgba(255, 0, 85, 0.15); color: var(--accent-pink); }
+    .tag.gold { background: rgba(255, 179, 0, 0.15); color: var(--accent-gold); }
+    .tag.purple { background: rgba(176, 38, 255, 0.15); color: var(--accent-purple); }
+    .tag.violet { background: rgba(138, 43, 226, 0.15); color: var(--accent-violet); }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .btn-play-cyan {
+      background: linear-gradient(135deg, #00F0FF, #0088FF);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+    }
+    .btn-play-green {
+      background: linear-gradient(135deg, #00FF88, #00B0FF);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    }
+    .btn-play-pink {
+      background: linear-gradient(135deg, #FF0055, #FF5500);
+      color: #FFF;
+      box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
+    }
+    .btn-play-gold {
+      background: linear-gradient(135deg, #FFB300, #FF7700);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+    }
+    .btn-play-purple {
+      background: linear-gradient(135deg, #B026FF, #00F0FF);
+      color: #FFF;
+      box-shadow: 0 4px 15px rgba(176, 38, 255, 0.3);
+    }
+    .btn-play-violet {
+      background: linear-gradient(135deg, #8A2BE2, #FF00FF);
+      color: #FFF;
+      box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    }
+    .btn:hover {
+      filter: brightness(1.15);
+      transform: scale(1.02);
+    }
+    .btn-apk {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-apk:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .pwa-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .platform-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .pill-tg {
+      background: rgba(0, 136, 204, 0.2);
+      border: 1px solid #0088cc;
+      color: #38bdf8;
+    }
+    .pill-vk {
+      background: rgba(0, 119, 255, 0.2);
+      border: 1px solid #0077ff;
+      color: #60a5fa;
+    }
+    .pill-ya {
+      background: rgba(252, 63, 29, 0.2);
+      border: 1px solid #fc3f1d;
+      color: #f87171;
+    }
+    .pill-stats {
+      background: rgba(0, 255, 136, 0.15);
+      border: 1px solid #00ff88;
+      color: #4ade80;
+    }
+    .pill-pwa {
+      background: rgba(0, 240, 255, 0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .platform-pill:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+    }
+    .filter-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .filter-chip.active {
+      background: rgba(0, 240, 255, 0.18);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    /* Leaderboard Styles */
+    .leaderboard-section {
+      max-width: 900px;
+      width: 100%;
+      margin-top: 50px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 26px 20px;
+      backdrop-filter: blur(12px);
+    }
+    .lb-header h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .lb-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .lb-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .lb-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lb-tab.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    .lb-table th {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .lb-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .lb-rank-1 { color: #FFD700; font-weight: 800; }
+    .lb-rank-2 { color: #C0C0C0; font-weight: 800; }
+    .lb-rank-3 { color: #CD7F32; font-weight: 800; }
+    .lb-score-val { color: var(--accent-green); font-weight: 700; }
+    .lb-submit-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .lb-submit-bar input {
+      flex: 1;
+      min-width: 150px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #FFFFFF;
+      font-family: inherit;
+    }
+    .lb-submit-bar input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .lb-submit-bar button {
+      background: linear-gradient(135deg, var(--accent) 0%, #0088CC 100%);
+      color: #000000;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+    .lb-submit-bar button:hover {
+      filter: brightness(1.2);
+    }
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">TIGames Universe</div>
+    <h1>Игровой портал TIGames Studio</h1>
+    <p class="subtitle">Играйте прямо в браузере любого телефона или ПК в 1 клик, либо скачивайте полные версии APK на Android!</p>
+    <div class="pwa-bar">
+      <button id="pwa-btn" class="platform-pill pill-pwa" style="display:none;">📲 Установить на телефон (PWA)</button>
+      <a href="telegram.html" class="platform-pill pill-tg">✈️ Telegram Mini App</a>
+      <a href="vk.html" class="platform-pill pill-vk">🟦 VK Mini App</a>
+      <a href="yandex.html" class="platform-pill pill-ya">🟡 Яндекс Игры</a>
+      <a href="stats.html" class="platform-pill pill-stats">📊 Статистика 1M</a>
+      <button onclick="toggleAudio()" id="btn-sound" class="platform-pill" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); color:#fff; cursor:pointer;">🔊 Звук</button>
+      <button onclick="window.TIGamesShare.share()" class="platform-pill" style="background:rgba(255,0,85,0.15); border:1px solid #ff0055; color:#ff4081; cursor:pointer;">📢 Поделиться</button>
+      <button onclick="window.TIGamesShare.showQr()" class="platform-pill" style="background:rgba(255,179,0,0.15); border:1px solid #ffb300; color:#ffca28; cursor:pointer;">📱 QR для смартфона</button>
+    </div>
+
+    <!-- Daily Rewards & Streaks Banner -->
+    <div id="daily-reward-card" style="margin-top:20px; background:linear-gradient(135deg, rgba(255,179,0,0.12) 0%, rgba(255,0,85,0.08) 100%); border:1px solid rgba(255,179,0,0.35); border-radius:18px; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; box-shadow:0 8px 24px rgba(255,179,0,0.1);">
+      <div style="display:flex; align-items:center; gap:12px; text-align:left;">
+        <span style="font-size:28px;">🎁</span>
+        <div>
+          <div style="font-size:15px; font-weight:800; color:#FFB300;" id="streak-title">Ежедневный бонус: День 1</div>
+          <div style="font-size:12px; color:#8B949E;" id="streak-sub">🔥 Твой стрик: 0 дней подряд · Заходи каждый день!</div>
+        </div>
+      </div>
+      <button id="btn-claim-reward" onclick="handleClaimReward()" style="background:linear-gradient(135deg, #FFB300 0%, #FF8000 100%); border:none; color:#000; font-weight:800; font-size:13px; padding:9px 20px; border-radius:12px; cursor:pointer; transition:transform 0.15s;">Забрать +100 XP ⚡</button>
+    </div>
+  </header>
+
+  <!-- Search & Category Filters -->
+  <div class="search-filter-container" style="max-width: 1200px; width: 100%; margin: 24px 0 16px; display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <input type="text" id="game-search-input" placeholder="🔍 Поиск игры по названию, жанру или тегу..." style="flex: 1; min-width: 240px; background: rgba(22, 27, 34, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px; padding: 12px 18px; color: #fff; font-size: 14px; outline: none; backdrop-filter: blur(10px);">
+      <span id="games-count-label" style="font-size: 13px; color: #8B949E; white-space: nowrap;">Показано игр: 7 из 7</span>
+    </div>
+    <div class="filter-chips-bar" style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="filter-chip active" data-filter="all">Все игры (7)</button>
+      <button class="filter-chip" data-filter="arcade">🏓 Аркады</button>
+      <button class="filter-chip" data-filter="runner">⚡ Раннеры</button>
+      <button class="filter-chip" data-filter="puzzle">🧠 Головоломки</button>
+      <button class="filter-chip" data-filter="retro">👾 Ретро</button>
+      <button class="filter-chip" data-filter="space">🪐 Космос</button>
+      <button onclick="window.TIGamesOnboarding.show(true)" class="filter-chip" style="margin-left: auto; background: rgba(0, 240, 255, 0.1); border-color: #00F0FF; color: #00F0FF;">ℹ️ О портале</button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. Neon Bounce -->
+    <div class="card" data-category="arcade">
+      <div class="card-top">
+        <div class="icon">🏓</div>
+        <div class="title-group">
+          <h2>Neon Bounce</h2>
+          <span class="tag cyan">ХИТ · КИБЕР РИКОШЕТ</span>
+        </div>
+      </div>
+      <p class="desc">Неоновый арканоид с фотонными рикошетами, лазерами, боссами и динамичным саундтреком. 100 уровней чистого драйва!</p>
+      <div class="actions">
+        <a class="btn btn-play-cyan" href="neon-bounce/" onclick="openInModal('neon-bounce', 'Neon Bounce: Кибер Рикошет'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/neon-bounce.apk" download>📥 Скачать APK на Android (70 MB)</a>
+      </div>
+    </div>
+
+    <!-- 2. Retro Zmeyka 3310 -->
+    <div class="card" data-category="retro">
+      <div class="card-top">
+        <div class="icon">🐍</div>
+        <div class="title-group">
+          <h2>Retro Zmeyka 3310</h2>
+          <span class="tag green">ЛЕГЕНДА · NOKIA 3310</span>
+        </div>
+      </div>
+      <p class="desc">Та самая классическая змейка! Оригинальный зелёный монохромный ЖК-экран, ностальгический звук зуммера и ретро-физика.</p>
+      <div class="actions">
+        <a class="btn btn-play-green" href="retro-zmeyka/" onclick="openInModal('retro-zmeyka', 'Retro Zmeyka 3310'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/retro-zmeyka.apk" download>📥 Скачать APK на Android (45 MB)</a>
+      </div>
+    </div>
+
+    <!-- 3. Cyber Helix -->
+    <div class="card" data-category="arcade">
+      <div class="card-top">
+        <div class="icon">🌀</div>
+        <div class="title-group">
+          <h2>Cyber Helix: Neon Drop</h2>
+          <span class="tag violet">АРКАДА · СПИРАЛЬНАЯ БАШНЯ</span>
+        </div>
+      </div>
+      <p class="desc">Вращай неоновую винтовую башню, скользи по безопасным платформам и разрушай препятствия на полной скорости падения!</p>
+      <div class="actions">
+        <a class="btn btn-play-violet" href="cyber-helix/" onclick="openInModal('cyber-helix', 'Cyber Helix: Neon Drop'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/neon-bounce.apk">📥 Каталог APK игр</a>
+      </div>
+    </div>
+
+    <!-- 4. Gravity Flip -->
+    <div class="card" data-category="runner">
+      <div class="card-top">
+        <div class="icon">⚡</div>
+        <div class="title-group">
+          <h2>Gravity Flip</h2>
+          <span class="tag pink">ХАРДКОР · КИБЕР РАННЕР</span>
+        </div>
+      </div>
+      <p class="desc">Бешеный ритм-раннер с инверсией гравитации в один тап! Переворачивай гравитацию, избегай шипов и беги на ультра-скорости.</p>
+      <div class="actions">
+        <a class="btn btn-play-pink" href="gravity-flip/" onclick="openInModal('gravity-flip', 'Gravity Flip'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/gravity-flip.apk" download>📥 Скачать APK на Android (61 MB)</a>
+      </div>
+    </div>
+
+    <!-- 5. Orbital Pulse -->
+    <div class="card" data-category="space">
+      <div class="card-top">
+        <div class="icon">🪐</div>
+        <div class="title-group">
+          <h2>Orbital Pulse</h2>
+          <span class="tag cyan">РИТМ · ЗАЩИТА ЯДРА</span>
+        </div>
+      </div>
+      <p class="desc">Управляй орбитальным защитным щитом и отражай волны квантовых сфер под глубокий синтвейв-бит в космосе.</p>
+      <div class="actions">
+        <a class="btn btn-play-cyan" href="orbital-pulse/" onclick="openInModal('orbital-pulse', 'Orbital Pulse'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/orbital-pulse.apk" download>📥 Скачать APK на Android (70 MB)</a>
+      </div>
+    </div>
+
+    <!-- 6. Balloon Pop -->
+    <div class="card" data-category="puzzle">
+      <div class="card-top">
+        <div class="icon">🎈</div>
+        <div class="title-group">
+          <h2>Balloon Pop</h2>
+          <span class="tag gold">КАЗУАЛ · ПРИКЛЮЧЕНИЕ</span>
+        </div>
+      </div>
+      <p class="desc">Яркая расслабляющая аркада с лопанием цветных шариков, комбо-цепочками, 100 уровнями и сочными звуковыми эффектами.</p>
+      <div class="actions">
+        <a class="btn btn-play-gold" href="balloon-pop/" onclick="openInModal('balloon-pop', 'Balloon Pop'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="downloads/balloon-pop.apk" download>📥 Скачать APK на Android (47 MB)</a>
+      </div>
+    </div>
+
+    <!-- 7. Prism Laser -->
+    <div class="card" data-category="puzzle">
+      <div class="card-top">
+        <div class="icon">🔮</div>
+        <div class="title-group">
+          <h2>Prism Laser: Optic Lab</h2>
+          <span class="tag purple">ЛОГИКА · ОПТИЧЕСКАЯ МАТРИЦА</span>
+        </div>
+      </div>
+      <p class="desc">Лазерная головоломка с призмами, расщепителями лучей и зеркалами. Преломляйте квантовые лучи и заряжайте реакторы лаборатории!</p>
+      <div class="actions">
+        <a class="btn btn-play-purple" href="prism-laser/" onclick="openInModal('prism-laser', 'Prism Laser: Optic Lab'); return false;">▶ ИГРАТЬ ОНЛАЙН В БРАУЗЕРЕ</a>
+        <a class="btn btn-apk" href="#leaderboard">🏆 Посмотреть лидерборд</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Global Leaderboard Section -->
+  <section class="leaderboard-section" id="leaderboard">
+    <div class="lb-header">
+      <h2>🏆 Глобальный онлайн-лидерборд TIGames</h2>
+      <p>Смотри рекорды лучших игроков мира и запиши свой результат!</p>
+      <div class="lb-tabs" id="lb-tabs">
+        <button class="lb-tab active" data-game="neon-bounce">🏓 Neon Bounce</button>
+        <button class="lb-tab" data-game="retro-zmeyka">🐍 Retro Zmeyka</button>
+        <button class="lb-tab" data-game="cyber-helix">🌀 Cyber Helix</button>
+        <button class="lb-tab" data-game="gravity-flip">⚡ Gravity Flip</button>
+        <button class="lb-tab" data-game="orbital-pulse">🛡️ Orbital Pulse</button>
+        <button class="lb-tab" data-game="balloon-pop">🎈 Balloon Pop</button>
+        <button class="lb-tab" data-game="prism-laser">🔮 Prism Laser</button>
+      </div>
+    </div>
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Место</th>
+          <th style="width: 40%;">Игрок</th>
+          <th style="width: 25%;">Счёт</th>
+          <th style="width: 20%;">Дата</th>
+        </tr>
+      </thead>
+      <tbody id="lb-body">
+        <!-- Rendered by JS -->
+      </tbody>
+    </table>
+    <div class="lb-submit-bar">
+      <input type="text" id="player-nick" placeholder="Твой никнейм" maxlength="15">
+      <input type="number" id="player-score" placeholder="Твой рекорд (очки)">
+      <button id="btn-submit-score">Записать рекорд</button>
+    </div>
+  </section>
+
+  <!-- Achievements Section -->
+  <section class="leaderboard-section" id="achievements" style="margin-top: 30px;">
+    <div class="lb-header">
+      <h2>🏆 Трофеи и Достижения Вселенной TIGames</h2>
+      <p>Запускай игры, бей рекорды и собирай все 8 кибер-трофеев!</p>
+    </div>
+    <div id="achievements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px;">
+      <!-- Rendered dynamically by achievements.js -->
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 TIGames Studio. Все права защищены. <br>
+    Страница разработчика в <a href="https://play.google.com/store/apps/dev?id=5893963663664759243" target="_blank">Google Play</a></p>
+  </footer>
+
+  <script>
+    // Leaderboard Data Management
+    let currentGame = 'neon-bounce';
+    let cachedScores = null;
+
+    async function fetchLeaderboardData() {
+      try {
+        const res = await fetch('leaderboard_data.json');
+        if (res.ok) {
+          cachedScores = await res.json();
+          renderLeaderboard();
+        }
+      } catch (e) {
+        console.warn('Using local fallback for leaderboard:', e);
+      }
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById('lb-body');
+      if (!tbody || !cachedScores) return;
+      const scores = cachedScores[currentGame] || [];
+      tbody.innerHTML = '';
+      if (scores.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Пока нет рекордов. Будь первым!</td></tr>';
+        return;
+      }
+      scores.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        let rankClass = '';
+        let rankText = `#${idx + 1}`;
+        if (idx === 0) { rankClass = 'lb-rank-1'; rankText = '🥇 1'; }
+        else if (idx === 1) { rankClass = 'lb-rank-2'; rankText = '🥈 2'; }
+        else if (idx === 2) { rankClass = 'lb-rank-3'; rankText = '🥉 3'; }
+        
+        tr.innerHTML = `
+          <td class="${rankClass}">${rankText}</td>
+          <td><strong>${item.player}</strong></td>
+          <td class="lb-score-val">${item.score.toLocaleString()}</td>
+          <td style="color:#888; font-size:12px;">${item.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Tab buttons
+    document.querySelectorAll('.lb-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentGame = tab.dataset.game;
+        renderLeaderboard();
+      });
+    });
+
+    // Score submit
+    document.getElementById('btn-submit-score').addEventListener('click', async () => {
+      const nickInput = document.getElementById('player-nick');
+      const scoreInput = document.getElementById('player-score');
+      const nick = nickInput.value.trim() || 'Игрок_' + Math.floor(Math.random() * 900 + 100);
+      const score = parseInt(scoreInput.value, 10);
+      if (isNaN(score) || score <= 0) {
+        alert('Пожалуйста, введи корректное количество очков!');
+        return;
+      }
+      if (!cachedScores) cachedScores = {};
+      if (!cachedScores[currentGame]) cachedScores[currentGame] = [];
+      const newEntry = {
+        player: nick,
+        score: score,
+        date: new Date().toISOString().slice(0, 10)
+      };
+      cachedScores[currentGame].push(newEntry);
+      cachedScores[currentGame].sort((a, b) => b.score - a.score);
+      renderLeaderboard();
+      scoreInput.value = '';
+      alert(`🎉 Поздравляем, ${nick}! Твой рекорд ${score.toLocaleString()} добавлен в таблицу!`);
+    });
+
+    fetchLeaderboardData();
+
+    // PWA Installation Hook
+    let deferredPrompt;
+    const pwaBtn = document.getElementById('pwa-btn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (pwaBtn) {
+        pwaBtn.style.display = 'inline-flex';
+      }
+    });
+
+    if (pwaBtn) {
+      pwaBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to install prompt: ${outcome}`);
+        deferredPrompt = null;
+        pwaBtn.style.display = 'none';
+      });
+    }
+
+    // Register Service Worker for offline / fast PWA caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] Service Worker registered:', reg.scope))
+          .catch((err) => console.warn('[PWA] SW registration failed:', err));
+      });
+    }
+
+    // In-Page Instant Play Modal
+    function openInModal(gamePath, title) {
+      if (window.TIGamesAnalytics) {
+        window.TIGamesAnalytics.trackPlay(gamePath);
+      }
+      if (window.TIGamesAchievements) {
+        if (gamePath === 'neon-bounce') window.TIGamesAchievements.unlock('first_game');
+        else if (gamePath === 'retro-zmeyka') window.TIGamesAchievements.unlock('snake_legend');
+        else if (gamePath === 'cyber-helix') window.TIGamesAchievements.unlock('helix_drop');
+        else if (gamePath === 'gravity-flip') window.TIGamesAchievements.unlock('gravity_master');
+        else if (gamePath === 'orbital-pulse') window.TIGamesAchievements.unlock('orbital_guard');
+        else if (gamePath === 'balloon-pop') window.TIGamesAchievements.unlock('balloon_buster');
+        else if (gamePath === 'prism-laser') window.TIGamesAchievements.unlock('laser_optics');
+      }
+      document.getElementById('modalGameTitle').innerText = title;
+      document.getElementById('gameModalFrame').src = gamePath + '/';
+      document.getElementById('gameModal').style.display = 'flex';
+    }
+
+    function closeInPageModal() {
+      document.getElementById('gameModal').style.display = 'none';
+      document.getElementById('gameModalFrame').src = 'about:blank';
+    }
+
+    // Sound toggle handler
+    function toggleAudio() {
+      if (!window.TIGamesAudio) return;
+      const isEnabled = window.TIGamesAudio.toggle();
+      const btn = document.getElementById('btn-sound');
+      if (btn) btn.innerText = isEnabled ? '🔊 Звук: ВКЛ' : '🔇 Звук: ВЫКЛ';
+    }
+
+    // Daily Rewards UI handler
+    function updateDailyRewardUI() {
+      if (!window.TIGamesRewards) return;
+      const data = window.TIGamesRewards.getData();
+      const canClaim = window.TIGamesRewards.canClaim();
+      const nextDay = (data.streak % 7) + 1;
+      const titleEl = document.getElementById('streak-title');
+      const subEl = document.getElementById('streak-sub');
+      const btn = document.getElementById('btn-claim-reward');
+
+      if (titleEl) titleEl.innerText = `Ежедневный бонус: День ${canClaim ? nextDay : (data.streak || 1)}`;
+      if (subEl) subEl.innerText = `🔥 Твой стрик: ${data.streak} дн. подряд · Всего XP: ${(data.totalXp || 0).toLocaleString()}`;
+      if (btn) {
+        if (canClaim) {
+          btn.innerText = 'Забрать бонус ⚡';
+          btn.style.background = 'linear-gradient(135deg, #FFB300 0%, #FF8000 100%)';
+          btn.style.color = '#000';
+          btn.disabled = false;
+        } else {
+          btn.innerText = '✅ Получено сегодня';
+          btn.style.background = 'rgba(255,255,255,0.1)';
+          btn.style.color = '#888';
+          btn.disabled = true;
+        }
+      }
+    }
+
+    function handleClaimReward() {
+      if (!window.TIGamesRewards) return;
+      const reward = window.TIGamesRewards.claim();
+      if (reward) {
+        updateDailyRewardUI();
+        alert(`🎉 Награда получена!\n+${reward.xp} XP — «${reward.title}» ${reward.icon}\nТвой стрик увеличен!`);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(updateDailyRewardUI, 200);
+    });
+  </script>
+
+  <!-- In-Page Fullscreen Modal -->
+  <div id="gameModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000000; z-index:99999; flex-direction:column;">
+    <div style="height:48px; background:#111622; display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid rgba(255,255,255,0.1);">
+      <span id="modalGameTitle" style="font-weight:700; font-size:15px; color:#00F0FF;">Игра</span>
+      <button onclick="closeInPageModal()" style="background:rgba(255,255,255,0.15); border:none; color:#FFFFFF; padding:6px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer;">✕ ЗАКРЫТЬ ИГРУ</button>
+    </div>
+    <iframe id="gameModalFrame" src="about:blank" style="flex:1; width:100%; height:calc(100% - 48px); border:none;"></iframe>
+  </div>
+</body>
+</html>

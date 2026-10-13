@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TIGames Universe — Яндекс Игры</title>
+  <!-- Yandex Games SDK v2 -->
+  <script src="https://yandex.ru/games/sdk/v2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=YS+Text:wght@400;500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ya-red: #FC3F1D;
+      --ya-yellow: #FFCC00;
+      --bg: #11141A;
+      --card-bg: #1B212D;
+      --text: #FFFFFF;
+      --text-sub: #9AA0A6;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #FFCC00;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 16px 14px 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-top: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(252, 63, 29, 0.15);
+      border: 1px solid var(--ya-red);
+      color: #FF7B60;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    p.sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+    .games-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .game-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.2s ease;
+    }
+    .game-card:hover {
+      border-color: rgba(255, 204, 0, 0.4);
+      transform: translateY(-2px);
+    }
+    .game-card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .game-icon {
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .game-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .game-tag {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+    .btn-ya-play {
+      background: var(--ya-yellow);
+      color: #11141A;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-ya-play:hover {
+      background: #FFE066;
+    }
+    /* Fullscreen Game Modal */
+    #gameModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #gameModal.active {
+      display: flex;
+    }
+    .modal-bar {
+      height: 48px;
+      background: #181D26;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-bar span {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ya-yellow);
+    }
+    .modal-close {
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: #FFFFFF;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #gameFrame {
+      flex: 1;
+      width: 100%;
+      height: calc(100% - 48px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="badge">🟡 Яндекс Игры · TIGames</div>
+    <h1>Вселенная TIGames на Яндекс Играх</h1>
+    <p class="sub">7 хитовых игр с моментальным запуском прямо в браузере Яндекса!</p>
+  </div>
+
+  <div class="games-list">
+    <div class="game-card" onclick="launchGame('neon-bounce', 'Neon Bounce')">
+      <div class="game-card-top">
+        <div class="game-icon">🏓</div>
+        <div>
+          <div class="game-title">Neon Bounce</div>
+          <div class="game-tag">Кибер-рикошет · Неоновый арканоид</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('retro-zmeyka', 'Retro Zmeyka 3310')">
+      <div class="game-card-top">
+        <div class="game-icon">🐍</div>
+        <div>
+          <div class="game-title">Retro Zmeyka 3310</div>
+          <div class="game-tag">Культовая ностальгия · Nokia 3310</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('cyber-helix', 'Cyber Helix')">
+      <div class="game-card-top">
+        <div class="game-icon">🌀</div>
+        <div>
+          <div class="game-title">Cyber Helix: Neon Drop</div>
+          <div class="game-tag">Винтовая башня · Рефлексы</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('gravity-flip', 'Gravity Flip')">
+      <div class="game-card-top">
+        <div class="game-icon">⚡</div>
+        <div>
+          <div class="game-title">Gravity Flip</div>
+          <div class="game-tag">Инверсия гравитации · Раннер</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('orbital-pulse', 'Orbital Pulse')">
+      <div class="game-card-top">
+        <div class="game-icon">🛡️</div>
+        <div>
+          <div class="game-title">Orbital Pulse</div>
+          <div class="game-tag">Орбитальная оборона · Синтвейв</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('balloon-pop', 'Balloon Pop')">
+      <div class="game-card-top">
+        <div class="game-icon">🎈</div>
+        <div>
+          <div class="game-title">Balloon Pop</div>
+          <div class="game-tag">Лопай шарики · 100 уровней</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+
+    <div class="game-card" onclick="launchGame('prism-laser', 'Prism Laser')">
+      <div class="game-card-top">
+        <div class="game-icon">🔮</div>
+        <div>
+          <div class="game-title">Prism Laser</div>
+          <div class="game-tag">Оптика и лазеры · Головоломка</div>
+        </div>
+      </div>
+      <button class="btn-ya-play">ИГРАТЬ БЕСПЛАТНО</button>
+    </div>
+  </div>
+
+  <!-- Fullscreen Modal -->
+  <div id="gameModal">
+    <div class="modal-bar">
+      <span id="modalGameTitle">Игра</span>
+      <button class="modal-close" onclick="closeGame()">✕ ВЫЙТИ В МЕНЮ</button>
+    </div>
+    <iframe id="gameFrame" src="about:blank"></iframe>
+  </div>
+
+  <script>
+    // Initialize Yandex Games SDK
+    let ysdkInstance = null;
+    if (window.YaGames) {
+      YaGames.init().then(ysdk => {
+        ysdkInstance = ysdk;
+        console.log('[Yandex Games] SDK initialized');
+        ysdk.features.LoadingAPI?.ready();
+      }).catch(err => {
+        console.warn('[Yandex Games] SDK init failed:', err);
+      });
+    }
+
+    function showAdBeforeGame(callback) {
+      if (ysdkInstance && ysdkInstance.adv) {
+        ysdkInstance.adv.showFullscreenAdv({
+          callbacks: {
+            onClose: function(wasShown) {
+              if (callback) callback();
+            },
+            onError: function(error) {
+              if (callback) callback();
+            }
+          }
+        });
+      } else {
+        if (callback) callback();
+      }
+    }
+
+    function launchGame(gamePath, title) {
+      showAdBeforeGame(() => {
+        document.getElementById('modalGameTitle').innerText = title;
+        document.getElementById('gameFrame').src = gamePath + '/';
+        document.getElementById('gameModal').classList.add('active');
+      });
+    }
+
+    function closeGame() {
+      document.getElementById('gameModal').classList.remove('active');
+      document.getElementById('gameFrame').src = 'about:blank';
+    }
+  </script>
+</body>
+</html>
