@@ -36620,7 +36620,7 @@ bJ(){this.d5()
 this.cS()
 this.kL()}}
 A.D7.prototype={
-aK(b2,b3){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7=this,a8=null,a9=b3.a,b0=a9/2,b1=a9*0.4
+aK(b2,b3){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7=this,a8=null,a9=b3.a,b0=a9/2,b1=Math.min(a9*0.42,175)
 a9=a7.b
 s=a9.f*165
 r=a9.d
