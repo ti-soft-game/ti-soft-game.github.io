@@ -10,12 +10,12 @@
   <meta name="apple-mobile-web-app-title" content="TIGames">
   <!-- OpenGraph & Twitter Meta Tags for Viral Sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TIGames Universe — 7 Браузерных Кибер-Игр Онлайн">
+  <meta property="og:title" content="TIGames Universe — 8 Браузерных Кибер-Игр Онлайн">
   <meta property="og:description" content="Играй онлайн в браузере любого смартфона или ПК в 1 клик без скачивания, либо загружай полные версии APK на Android!">
   <meta property="og:image" content="icons/og-banner.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TIGames Universe — 7 Онлайн Игр">
-  <meta name="twitter:description" content="7 игр Instant Play прямо в браузере! Устанавливай как PWA или скачивай APK.">
+  <meta name="twitter:title" content="TIGames Universe — 8 Онлайн Игр">
+  <meta name="twitter:description" content="8 игр Instant Play прямо в браузере! Устанавливай как PWA или скачивай APK.">
   <meta name="twitter:image" content="icons/og-banner.png">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -125,9 +125,9 @@
       margin-bottom: 14px;
     }
     .icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -135,6 +135,15 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+    .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 15px;
     }
     .title-group h2 {
       font-size: 19px;
@@ -813,7 +822,7 @@
   <div class="search-filter-container" style="max-width: 1200px; width: 100%; margin: 24px 0 16px; display: flex; flex-direction: column; gap: 14px;">
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
       <input type="text" id="game-search-input" placeholder="🔍 Поиск игры по названию, жанру или тегу..." style="flex: 1; min-width: 240px; background: rgba(22, 27, 34, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px; padding: 12px 18px; color: #fff; font-size: 14px; outline: none; backdrop-filter: blur(10px);">
-      <span id="games-count-label" style="font-size: 13px; color: #8B949E; white-space: nowrap;">Показано игр: 7 из 7</span>
+      <span id="games-count-label" style="font-size: 13px; color: #8B949E; white-space: nowrap;">Показано игр: 8 из 8</span>
     </div>
     <div class="filter-chips-bar" style="display: flex; gap: 8px; flex-wrap: wrap;">
       <button class="filter-chip active" data-filter="all">Все игры (8)</button>
@@ -831,7 +840,7 @@
     <!-- 1. Neon Bounce -->
     <div class="card" data-category="arcade">
       <div class="card-top">
-        <div class="icon">🏓</div>
+        <div class="icon"><img src="icons/games/neon-bounce.png" alt="Neon Bounce" loading="lazy"></div>
         <div class="title-group">
           <h2>Neon Bounce</h2>
           <span class="tag cyan">ХИТ · КИБЕР РИКОШЕТ</span>
@@ -853,7 +862,7 @@
     <!-- 2. Retro Zmeyka 3310 -->
     <div class="card" data-category="retro">
       <div class="card-top">
-        <div class="icon">🐍</div>
+        <div class="icon"><img src="icons/games/retro-zmeyka.png" alt="Retro Zmeyka 3310" loading="lazy"></div>
         <div class="title-group">
           <h2>Retro Zmeyka 3310</h2>
           <span class="tag green">ЛЕГЕНДА · NOKIA 3310</span>
@@ -875,7 +884,7 @@
     <!-- 3. Cyber Helix: Neon Drop -->
     <div class="card" data-category="arcade">
       <div class="card-top">
-        <div class="icon">🌀</div>
+        <div class="icon"><img src="icons/games/cyber-helix.png" alt="Cyber Helix" loading="lazy"></div>
         <div class="title-group">
           <h2>Cyber Helix: Neon Drop</h2>
           <span class="tag violet">АРКАДА · СПИРАЛЬНАЯ БАШНЯ</span>
@@ -897,7 +906,7 @@
     <!-- 4. Water Sort: Color Puzzle -->
     <div class="card" data-category="puzzle">
       <div class="card-top">
-        <div class="icon">🧪</div>
+        <div class="icon"><img src="icons/games/water-sort.png" alt="Water Sort: Color Puzzle" loading="lazy"></div>
         <div class="title-group">
           <h2>Water Sort: Color Puzzle</h2>
           <span class="tag cyan">ХИТ · ГОЛОВОЛОМКА</span>
@@ -919,7 +928,7 @@
     <!-- 5. Gravity Flip -->
     <div class="card" data-category="runner">
       <div class="card-top">
-        <div class="icon">⚡</div>
+        <div class="icon"><img src="icons/games/gravity-flip.png" alt="Gravity Flip" loading="lazy"></div>
         <div class="title-group">
           <h2>Gravity Flip</h2>
           <span class="tag pink">ХАРДКОР · КИБЕР РАННЕР</span>
@@ -941,7 +950,7 @@
     <!-- 6. Orbital Pulse -->
     <div class="card" data-category="space">
       <div class="card-top">
-        <div class="icon">🪐</div>
+        <div class="icon"><img src="icons/games/orbital-pulse.png" alt="Orbital Pulse" loading="lazy"></div>
         <div class="title-group">
           <h2>Orbital Pulse</h2>
           <span class="tag cyan">РИТМ · ЗАЩИТА ЯДРА</span>
@@ -963,7 +972,7 @@
     <!-- 7. Balloon Pop -->
     <div class="card" data-category="puzzle">
       <div class="card-top">
-        <div class="icon">🎈</div>
+        <div class="icon"><img src="icons/games/balloon-pop.png" alt="Balloon Pop" loading="lazy"></div>
         <div class="title-group">
           <h2>Balloon Pop</h2>
           <span class="tag gold">КАЗУАЛ · ПРИКЛЮЧЕНИЕ</span>
@@ -985,7 +994,7 @@
     <!-- 8. Prism Laser -->
     <div class="card" data-category="puzzle">
       <div class="card-top">
-        <div class="icon">🔮</div>
+        <div class="icon"><img src="icons/games/prism-laser.png" alt="Prism Laser: Optic Lab" loading="lazy"></div>
         <div class="title-group">
           <h2>Prism Laser: Optic Lab</h2>
           <span class="tag purple">ЛОГИКА · ОПТИЧЕСКАЯ МАТРИЦА</span>
@@ -998,7 +1007,7 @@
           <span>Установить из Google Play</span>
         </a>
         <div class="card-sub-actions">
-          <a class="btn btn-apk" href="https://play.google.com/store/apps/details?id=com.ti.prismlaser" target="_blank" rel="noopener">🛒 В Google Play</a>
+          <a class="btn btn-apk" href="downloads/prism-laser.apk" download>📥 Скачать APK (44 MB)</a>
           <a class="btn btn-demo-play" href="prism-laser/" onclick="openInModal('prism-laser', 'Prism Laser: Optic Lab'); return false;">▶ Демо онлайн</a>
         </div>
       </div>
@@ -1198,6 +1207,18 @@
       }
 
       document.getElementById('modalGameTitle').innerText = title;
+      const modalIcon = document.getElementById('modalGameIcon');
+      if (modalIcon) {
+        modalIcon.innerHTML = `<img src="icons/games/${gamePath}.png" alt="${title}" style="width:24px;height:24px;border-radius:6px;object-fit:cover;vertical-align:middle;display:inline-block;box-shadow:0 2px 6px rgba(0,0,0,0.5);">`;
+      }
+      const sideIcon = document.getElementById('sideGameIcon');
+      if (sideIcon) {
+        sideIcon.src = `icons/games/${gamePath}.png`;
+      }
+      const sideTitle = document.getElementById('sideGameTitle');
+      if (sideTitle) {
+        sideTitle.innerText = title;
+      }
 
       const playBtn = document.getElementById('modalPlayStoreBtn');
       const sidePlayBtn = document.getElementById('sidePlayStoreBtn');
@@ -1297,7 +1318,7 @@
   <div id="gameModal" class="game-modal-backdrop" style="display:none;">
     <div class="game-modal-bar">
       <div class="modal-left">
-        <span class="modal-phone-icon">📱</span>
+        <span id="modalGameIcon" class="modal-phone-icon">📱</span>
         <span id="modalGameTitle" class="modal-title">Игра</span>
         <span class="modal-subtitle-tag">ДЕМО 9:16</span>
       </div>
@@ -1321,7 +1342,13 @@
       <!-- Ambient side card on PC -->
       <div class="desktop-side-banner left-banner">
         <div class="side-card">
-          <h4>🔥 Полная игра в Google Play</h4>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <img id="sideGameIcon" src="icons/icon-192.png" style="width:48px;height:48px;border-radius:12px;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,0.5);" alt="Icon">
+            <div style="min-width:0;">
+              <h4 id="sideGameTitle" style="margin:0;font-size:15px;color:#FFF;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Игра</h4>
+              <span style="font-size:11px;color:#00F0FF;font-weight:700;">Google Play Release</span>
+            </div>
+          </div>
           <p>Скачайте официальную версию для Android: плавная физика 120 FPS, вибрация, сохранение рекордов и офлайн-режим!</p>
           <a id="sidePlayStoreBtn" href="#" target="_blank" rel="noopener" class="side-btn-play">
             <svg class="google-play-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="#00E676" d="M3.6 1.8L13.7 12 3.6 22.2c-.4-.4-.6-1-.6-1.7V3.5c0-.7.2-1.3.6-1.7z"/><path fill="#FFD54F" d="M17.1 8.6L14.7 11 3.6 1.8c.3-.2.8-.3 1.3-.3.8 0 1.6.3 2.2.7l10 6.4z"/><path fill="#FF1744" d="M17.1 15.4L7.1 21.8c-.6.4-1.4.7-2.2.7-.5 0-1-.1-1.3-.3l11.1-9.2 2.4 2.4z"/><path fill="#00B0FF" d="M20.9 11.2l-3.8-2.4-2.4 2.4 2.4 2.4 3.8-2.4c.7-.4 1.1-1.2 1.1-2s-.4-1.6-1.1-2z"/></svg>
