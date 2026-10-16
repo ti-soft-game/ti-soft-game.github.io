@@ -34,5 +34,10 @@
   "prism-laser": [
     { "player": "OpticGenius", "score": 35, "date": "2026-10-10" },
     { "player": "PhotonLab", "score": 28, "date": "2026-10-09" }
+  ],
+  "water-sort": [
+    { "player": "AquaMaster", "score": 75, "date": "2026-10-16" },
+    { "player": "ColorWizard", "score": 62, "date": "2026-10-15" },
+    { "player": "FlaskKing", "score": 48, "date": "2026-10-15" }
   ]
 }

@@ -81,7 +81,27 @@ const TIGAMES_PORTFOLIO = [
     storeUrl: "https://play.google.com/store/apps/details?id=com.ti.cyberhelix",
     marketUri: "market://details?id=com.ti.cyberhelix",
     webPlayUrl: "cyber-helix/",
-    apkUrl: null,
+    apkUrl: "downloads/cyber-helix.apk",
+    privacyPolicyUrl: "https://ti-soft-game.github.io/Privacy-Policy-and-Terms/privacy-policy-mobile-apps.html"
+  },
+
+  // 4b. Water Sort: Color Puzzle
+  {
+    id: "water-sort",
+    titleRu: "Water Sort: Color Puzzle",
+    titleEn: "Water Sort: Color Puzzle",
+    packageName: "com.ti.watersortpuzzle",
+    type: "game",
+    category: "puzzle",
+    categoryNameRu: "Головоломка · Сортировка",
+    shortDescRu: "Увлекательная цветная головоломка: переливай жидкости по колбам, сортируй цвета и расслабляйся!",
+    iconEmoji: "🧪",
+    accentColor: "#00E5FF",
+    badge: "Хит",
+    storeUrl: "https://play.google.com/store/apps/details?id=com.ti.watersortpuzzle",
+    marketUri: "market://details?id=com.ti.watersortpuzzle",
+    webPlayUrl: "water-sort/",
+    apkUrl: "downloads/water-sort.apk",
     privacyPolicyUrl: "https://ti-soft-game.github.io/Privacy-Policy-and-Terms/privacy-policy-mobile-apps.html"
   },
 
